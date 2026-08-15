@@ -367,7 +367,7 @@
     </form>
 
     <div class="footer-note">
-      <span>© Always Rizz<span>
+      <span>© Always Rizz</span>
     </div>
   </div>
 
@@ -405,6 +405,11 @@
         return false;
       }
 
+      // === DEFINE CREDENTIALS DI SINI ===
+      const validUser = 'admin';
+      const validPass = 'admin123';
+
+      // Cek login
       if (username === validUser && password === validPass) {
         messageBox.innerHTML = '<i class="fas fa-check-circle"></i> Login berhasil! Selamat datang, ' + username + '!';
         messageBox.classList.add('success', 'show');
