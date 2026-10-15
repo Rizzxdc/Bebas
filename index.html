@@ -1,428 +1,144 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login • Video Background</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-  
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Python: Bahasa Pemrograman yang Mudah Dibaca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: dark;
+  --bg:#000;
+  --surface:#0d0d0d;
+  --line:#242424;
+  --text:#ededed;
+  --muted:#9a9a9a;
+  --yellow:#ffd43b;
+  --blue:#6fa8dc;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);}
+*,*::before,*::after{box-sizing:inherit;}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  line-height:1.65;
+}
+.wrap{max-width:720px;margin:0 auto;padding:0 20px;}
+h1,h2,h3{font-family:"Bricolage Grotesque","Inter",system-ui,sans-serif;line-height:1.1;margin:0;}
+code,pre{font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;}
 
-    body {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      padding: 1rem;
-      position: relative;
-      overflow: hidden;
-    }
+.hero{padding:72px 0 56px;}
+.hero h1{font-size:clamp(2.6rem,9vw,4.4rem);font-weight:800;letter-spacing:-.03em;}
+.hero p{color:var(--muted);font-size:1.1rem;max-width:52ch;margin:20px 0 32px;}
 
-    /* === VIDEO BACKGROUND === */
-    #bg-video {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-      z-index: 0;
-    }
+.code{
+  background:var(--surface);border:1px solid var(--line);border-radius:10px;
+  padding:18px 20px;margin:0;overflow-x:auto;font-size:.92rem;line-height:1.7;
+  max-width:100%;
+}
+.code .k{color:var(--yellow);}
+.code .s{color:var(--blue);}
+.code .c{color:#666;}
+.code .o{color:var(--muted);}
 
-    /* Overlay gelap agar teks tetap terbaca */
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.45);
-      z-index: 1;
-    }
+section{padding:44px 0;border-top:1px solid var(--line);}
+h2{font-size:1.7rem;font-weight:700;letter-spacing:-.02em;margin-bottom:14px;}
+section p{color:var(--muted);margin:0 0 14px;max-width:62ch;}
+section p strong{color:var(--text);font-weight:500;}
 
-    /* === CARD LOGIN === */
-    .login-card {
-      position: relative;
-      z-index: 10;
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-radius: 48px;
-      padding: 2.8rem 2.5rem;
-      max-width: 420px;
-      width: 100%;
-      box-shadow: 
-        0 30px 60px -20px rgba(0, 0, 0, 0.6),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
-    }
+.uses{list-style:none;margin:20px 0 0;padding:0;display:grid;gap:12px;}
+.uses li{border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:var(--surface);}
+.uses b{display:block;font-family:"Bricolage Grotesque",sans-serif;font-weight:700;color:var(--yellow);margin-bottom:2px;}
+.uses span{color:var(--muted);font-size:.95rem;}
 
-    .login-card:hover {
-      transform: translateY(-6px) scale(1.01);
-      box-shadow: 0 40px 80px -24px rgba(0, 0, 0, 0.7);
-    }
+ol.steps{margin:20px 0 0;padding-left:1.3rem;color:var(--muted);}
+ol.steps li{margin-bottom:10px;padding-left:4px;}
+ol.steps li::marker{color:var(--yellow);font-weight:600;}
+ol.steps strong{color:var(--text);font-weight:500;}
 
-    .brand {
-      text-align: center;
-      margin-bottom: 2.5rem;
-    }
+footer{border-top:1px solid var(--line);padding:28px 0 40px;color:#666;font-size:.9rem;}
+a{color:var(--yellow);}
+a:focus-visible,button:focus-visible{outline:2px solid var(--yellow);outline-offset:3px;border-radius:4px;}
 
-    .brand-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 70px;
-      height: 70px;
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(8px);
-      border-radius: 24px;
-      color: white;
-      font-size: 2.2rem;
-      margin-bottom: 1.2rem;
-      box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      transition: transform 0.3s ease;
-    }
-
-    .brand-icon svg {
-      width: 36px;
-      height: 36px;
-      stroke: white;
-      stroke-width: 2;
-    }
-
-    .brand h1 {
-      font-size: 1.9rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: #ffffff;
-      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
-      margin-bottom: 0.2rem;
-    }
-
-    .brand p {
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 0.95rem;
-      font-weight: 400;
-      letter-spacing: 0.2px;
-      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
-    }
-
-    /* === FORM === */
-    .input-group {
-      margin-bottom: 1.6rem;
-      position: relative;
-    }
-
-    .input-group label {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      color: rgba(255, 255, 255, 0.8);
-      margin-bottom: 0.5rem;
-    }
-
-    .input-group .input-wrapper {
-      position: relative;
-      display: flex;
-      align-items: center;
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border-radius: 60px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      transition: all 0.25s ease;
-    }
-
-    .input-group .input-wrapper:focus-within {
-      background: rgba(255, 255, 255, 0.25);
-      border-color: rgba(255, 255, 255, 0.5);
-      box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.08);
-    }
-
-    .input-group .input-wrapper i {
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 1.1rem;
-      padding: 0 0 0 1.2rem;
-    }
-
-    .input-group .input-wrapper:focus-within i {
-      color: rgba(255, 255, 255, 0.9);
-    }
-
-    .input-group input {
-      width: 100%;
-      padding: 0.9rem 1.2rem 0.9rem 0.8rem;
-      font-size: 1rem;
-      background: transparent;
-      border: none;
-      outline: none;
-      color: #ffffff;
-      font-weight: 500;
-      letter-spacing: 0.2px;
-    }
-
-    .input-group input::placeholder {
-      color: rgba(255, 255, 255, 0.4);
-      font-weight: 400;
-    }
-
-    .toggle-password {
-      background: none;
-      border: none;
-      padding: 0 1.2rem 0 0.5rem;
-      cursor: pointer;
-      color: rgba(255, 255, 255, 0.5);
-      font-size: 1rem;
-      transition: color 0.2s;
-      display: flex;
-      align-items: center;
-    }
-    .toggle-password:hover {
-      color: rgba(255, 255, 255, 0.9);
-    }
-
-    .login-btn {
-      width: 100%;
-      border: none;
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(12px);
-      color: white;
-      padding: 1rem 1.5rem;
-      font-size: 1.05rem;
-      font-weight: 600;
-      border-radius: 60px;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-      letter-spacing: 0.4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.6rem;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      margin-top: 0.3rem;
-    }
-
-    .login-btn:hover {
-      background: rgba(255, 255, 255, 0.35);
-      transform: scale(1.02);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
-    }
-
-    .login-btn:hover i {
-      transform: translateX(4px);
-    }
-
-    .login-btn:active {
-      transform: scale(0.96);
-    }
-
-    .login-btn i {
-      transition: transform 0.2s;
-    }
-
-    /* === MESSAGE BOX === */
-    .info-message {
-      margin-top: 1.6rem;
-      padding: 0.7rem 1rem;
-      border-radius: 60px;
-      text-align: center;
-      font-size: 0.85rem;
-      font-weight: 500;
-      background: rgba(0, 0, 0, 0.25);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: rgba(255, 255, 255, 0.85);
-      transition: all 0.25s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      min-height: 3.2rem;
-      
-      /* Sembunyikan secara default */
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-10px);
-      transition: all 0.3s ease;
-    }
-
-    .info-message.show {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-
-    .info-message.success {
-      background: rgba(40, 200, 80, 0.25);
-      color: #b0f0c0;
-      border-color: rgba(40, 200, 80, 0.3);
-    }
-
-    .info-message.error {
-      background: rgba(255, 80, 80, 0.25);
-      color: #ffb0b0;
-      border-color: rgba(255, 80, 80, 0.3);
-    }
-
-    .footer-note {
-      margin-top: 2rem;
-      text-align: center;
-      font-size: 0.7rem;
-      color: rgba(255, 255, 255, 0.3);
-      letter-spacing: 0.3px;
-    }
-
-    .footer-note span {
-      background: rgba(0, 0, 0, 0.15);
-      padding: 0.2rem 1rem;
-      border-radius: 40px;
-    }
-
-    /* Animasi masuk */
-    @keyframes fadeUp {
-      0% { opacity: 0; transform: translateY(30px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
-    .login-card {
-      animation: fadeUp 0.7s ease forwards;
-    }
-
-    @media (max-width: 460px) {
-      .login-card { padding: 2rem 1.5rem; }
-      .brand h1 { font-size: 1.7rem; }
-      .brand-icon { width: 60px; height: 60px; font-size: 1.8rem; }
-      .brand-icon svg { width: 30px; height: 30px; }
-    }
-  </style>
+.try{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:18px;}
+button{
+  font:600 .95rem "Inter",system-ui,sans-serif;background:var(--yellow);color:#000;
+  border:0;border-radius:8px;padding:10px 18px;cursor:pointer;
+}
+button:active{transform:translateY(1px);}
+#out{
+  font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.92rem;color:var(--text);
+  min-height:1.5em;
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}
+</style>
 </head>
 <body>
+<main class="wrap">
 
-  <!-- VIDEO BACKGROUND -->
-  <video id="bg-video" autoplay loop muted playsinline>
-    <!-- GANTI URL VIDEO DI BAWAH INI dengan video milik Anda -->
-    <source src="https://files.catbox.moe/8x3pyt.mp4" type="video/mp4" />
-    <!-- Fallback jika video tidak bisa diputar -->
-    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
-    Browser Anda tidak mendukung video background.
-  </video>
-
-  <!-- Overlay gelap -->
-  <div class="overlay"></div>
-
-  <!-- CARD LOGIN -->
-  <div class="login-card">
-    <div class="brand">
-      <div class="brand-icon">
-        <!-- Ikon gembok dari Lucide -->
-        <i data-lucide="lock-keyhole"></i>
-      </div>
-      <h1>Selamat Datang</h1>
-      <p>Silahkan Masukan Password & Username</p>
+  <header class="hero">
+    <h1>Python</h1>
+    <p>Bahasa pemrograman yang ditulis hampir seperti kalimat biasa. Cocok untuk pemula, dipakai juga oleh para profesional.</p>
+<pre class="code"><span class="c"># Program pertamamu</span>
+<span class="k">nama</span> <span class="o">=</span> <span class="s">"Dunia"</span>
+<span class="k">print</span>(<span class="s">f"Halo, {nama}!"</span>)</pre>
+    <div class="try">
+      <button id="run" type="button">Jalankan kode</button>
+      <span id="out" aria-live="polite"></span>
     </div>
+  </header>
 
-    <form id="loginForm" onsubmit="return handleLogin(event)">
-      <div class="input-group">
-        <label for="username"><i class="fas fa-user" style="margin-right: 6px;"></i> Username</label>
-        <div class="input-wrapper">
-          <i class="fas fa-user"></i>
-          <input type="text" id="username" placeholder="Username" required autofocus />
-        </div>
-      </div>
+  <section>
+    <h2>Apa itu Python?</h2>
+    <p>Python dibuat oleh <strong>Guido van Rossum</strong> dan pertama kali dirilis pada tahun 1991. Sintaksnya ringkas dan memakai indentasi untuk menandai blok kode, sehingga hasilnya rapi dan mudah dibaca.</p>
+    <p>Python berjalan di Windows, macOS, Linux, dan gratis untuk dipakai.</p>
+  </section>
 
-      <div class="input-group">
-        <label for="password"><i class="fas fa-lock" style="margin-right: 6px;"></i> Password</label>
-        <div class="input-wrapper">
-          <i class="fas fa-key"></i>
-          <input type="password" id="password" placeholder="••••••••" required />
-          <button type="button" class="toggle-password" id="togglePassword" aria-label="Toggle password visibility">
-            <i class="fas fa-eye" id="eyeIcon"></i>
-          </button>
-        </div>
-      </div>
+  <section>
+    <h2>Dipakai untuk apa?</h2>
+    <ul class="uses">
+      <li><b>Web</b><span>Membuat situs dan API dengan Django, Flask, atau FastAPI.</span></li>
+      <li><b>Data dan AI</b><span>Analisis data dan machine learning dengan pandas, NumPy, dan PyTorch.</span></li>
+      <li><b>Otomatisasi</b><span>Mengolah file, scraping, dan menjalankan tugas berulang secara otomatis.</span></li>
+      <li><b>Bot dan skrip</b><span>Bot Telegram atau Discord dan alat bantu kecil untuk keperluan sehari-hari.</span></li>
+    </ul>
+  </section>
 
-      <button type="submit" class="login-btn">
-        <span>Masuk</span> <i class="fas fa-arrow-right"></i>
-      </button>
+  <section>
+    <h2>Contoh kode</h2>
+    <p>Perulangan dan fungsi dalam Python terlihat seperti ini:</p>
+<pre class="code"><span class="k">def</span> sapa(nama):
+    <span class="k">return</span> <span class="s">f"Halo, {nama}!"</span>
 
-      <!-- Kotak pesan (tersembunyi sampai ada error/sukses) -->
-      <div id="messageBox" class="info-message"></div>
-    </form>
+<span class="k">for</span> teman <span class="k">in</span> [<span class="s">"Ani"</span>, <span class="s">"Budi"</span>, <span class="s">"Citra"</span>]:
+    <span class="k">print</span>(sapa(teman))</pre>
+  </section>
 
-    <div class="footer-note">
-      <span>© Always Rizz</span>
-    </div>
-  </div>
+  <section>
+    <h2>Cara mulai belajar</h2>
+    <ol class="steps">
+      <li><strong>Pasang Python</strong> dari <a href="https://www.python.org/downloads/" rel="noopener">python.org</a>.</li>
+      <li><strong>Buka terminal</strong> lalu ketik <code>python</code> untuk mencoba kode langsung.</li>
+      <li><strong>Pelajari dasarnya</strong>: variabel, kondisi, perulangan, dan fungsi.</li>
+      <li><strong>Buat proyek kecil</strong>, misalnya kalkulator atau bot sederhana.</li>
+    </ol>
+  </section>
 
-  <script>
-    // Inisialisasi Lucide icons
-    lucide.createIcons();
+</main>
 
-    // Toggle password visibility
-    const togglePassword = document.getElementById('togglePassword');
-    const passwordInput = document.getElementById('password');
-    const eyeIcon = document.getElementById('eyeIcon');
+<footer>
+  <div class="wrap">Dibuat Untuk Memahami Python.</div>
+</footer>
 
-    togglePassword.addEventListener('click', function () {
-      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-      passwordInput.setAttribute('type', type);
-      eyeIcon.classList.toggle('fa-eye');
-      eyeIcon.classList.toggle('fa-eye-slash');
-    });
-
-    // Login handler (pesan muncul di kotak saat ada error/sukses)
-    function handleLogin(event) {
-      event.preventDefault();
-
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value.trim();
-      const messageBox = document.getElementById('messageBox');
-
-      // Hapus class sebelumnya
-      messageBox.classList.remove('success', 'error', 'show');
-
-      // Validasi kosong
-      if (username === '' || password === '') {
-        messageBox.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Kedua kolom harus diisi';
-        messageBox.classList.add('error', 'show');
-        return false;
-      }
-
-      // === DEFINE CREDENTIALS DI SINI ===
-      const validUser = 'admin';
-      const validPass = 'admin123';
-
-      // Cek login
-      if (username === validUser && password === validPass) {
-        messageBox.innerHTML = '<i class="fas fa-check-circle"></i> Login berhasil! Selamat datang, ' + username + '!';
-        messageBox.classList.add('success', 'show');
-        // window.location.href = '/dashboard';
-        return false;
-      } else {
-        messageBox.innerHTML = '<i class="fas fa-times-circle"></i> Username atau password salah';
-        messageBox.classList.add('error', 'show');
-        document.getElementById('password').value = '';
-        document.getElementById('password').focus();
-        return false;
-      }
-    }
-  </script>
+<script>
+  var out = document.getElementById('out');
+  document.getElementById('run').addEventListener('click', function () {
+    out.textContent = 'Halo, Dunia!';
+  });
+</script>
 </body>
 </html>
