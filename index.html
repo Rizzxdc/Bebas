@@ -70,10 +70,20 @@ button{
   border:0;border-radius:8px;padding:10px 18px;cursor:pointer;
 }
 button:active{transform:translateY(1px);}
-#out{
-  font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.92rem;color:var(--text);
-  min-height:1.5em;
+.lbl{display:block;color:var(--muted);font-size:.9rem;margin-bottom:8px;}
+textarea{
+  width:100%;display:block;min-height:180px;resize:vertical;tab-size:4;
+  background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:10px;
+  padding:16px 18px;font:400 1rem/1.7 "JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
 }
+textarea:focus{outline:2px solid var(--yellow);outline-offset:2px;border-color:transparent;}
+textarea::placeholder{color:#555;}
+button:disabled{opacity:.45;cursor:not-allowed;}
+button.ghost{background:transparent;color:var(--text);border:1px solid var(--line);}
+#status{color:var(--muted);font-size:.88rem;}
+#out{margin-top:16px;white-space:pre-wrap;word-break:break-word;color:var(--text);}
+#out.err{color:#ff7b72;}
+#out:empty{display:none;}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}
 </style>
 </head>
@@ -83,13 +93,14 @@ button:active{transform:translateY(1px);}
   <header class="hero">
     <h1>Python</h1>
     <p>Bahasa pemrograman yang ditulis hampir seperti kalimat biasa. Cocok untuk pemula, dipakai juga oleh para profesional.</p>
-<pre class="code"><span class="c"># Program pertamamu</span>
-<span class="k">nama</span> <span class="o">=</span> <span class="s">"Dunia"</span>
-<span class="k">print</span>(<span class="s">f"Halo, {nama}!"</span>)</pre>
+    <label for="editor" class="lbl">Tulis programmu sendiri</label>
+    <textarea id="editor" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" rows="8" placeholder="Ketik kode Python di sini, lalu tekan Jalankan kode"></textarea>
     <div class="try">
-      <button id="run" type="button">Jalankan kode</button>
-      <span id="out" aria-live="polite"></span>
+      <button id="run" type="button" disabled>Jalankan kode</button>
+      <button id="clear" type="button" class="ghost">Kosongkan</button>
+      <span id="status" aria-live="polite">Memuat Python...</span>
     </div>
+    <pre id="out" class="code" aria-live="polite"></pre>
   </header>
 
   <section>
@@ -109,16 +120,6 @@ button:active{transform:translateY(1px);}
   </section>
 
   <section>
-    <h2>Contoh kode</h2>
-    <p>Perulangan dan fungsi dalam Python terlihat seperti ini:</p>
-<pre class="code"><span class="k">def</span> sapa(nama):
-    <span class="k">return</span> <span class="s">f"Halo, {nama}!"</span>
-
-<span class="k">for</span> teman <span class="k">in</span> [<span class="s">"Ani"</span>, <span class="s">"Budi"</span>, <span class="s">"Citra"</span>]:
-    <span class="k">print</span>(sapa(teman))</pre>
-  </section>
-
-  <section>
     <h2>Cara mulai belajar</h2>
     <ol class="steps">
       <li><strong>Pasang Python</strong> dari <a href="https://www.python.org/downloads/" rel="noopener">python.org</a>.</li>
@@ -131,14 +132,66 @@ button:active{transform:translateY(1px);}
 </main>
 
 <footer>
-  <div class="wrap">Dibuat Untuk Memahami Python.</div>
+  <div class="wrap">Dibuat dengan HTML dan sedikit JavaScript.</div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/pyodide@0.26.4/pyodide.js"></script>
 <script>
+  var editor = document.getElementById('editor');
   var out = document.getElementById('out');
-  document.getElementById('run').addEventListener('click', function () {
-    out.textContent = 'Halo, Dunia!';
+  var runBtn = document.getElementById('run');
+  var clearBtn = document.getElementById('clear');
+  var statusEl = document.getElementById('status');
+  var py = null;
+
+  function show(text, isErr) {
+    out.textContent = text;
+    out.className = 'code' + (isErr ? ' err' : '');
+  }
+
+  async function boot() {
+    try {
+      py = await loadPyodide();
+      statusEl.textContent = 'Python siap';
+      runBtn.disabled = false;
+    } catch (e) {
+      statusEl.textContent = 'Python gagal dimuat, coba muat ulang halaman';
+    }
+  }
+
+  async function run() {
+    if (!py || !editor.value.trim()) return;
+    var buf = [];
+    py.setStdout({ batched: function (s) { buf.push(s); } });
+    py.setStderr({ batched: function (s) { buf.push(s); } });
+    runBtn.disabled = true;
+    try {
+      await py.runPythonAsync(editor.value);
+      show(buf.join('\n') || '(selesai, tidak ada output)', false);
+    } catch (e) {
+      show(buf.concat([String(e.message || e)]).join('\n'), true);
+    }
+    runBtn.disabled = false;
+  }
+
+  runBtn.addEventListener('click', run);
+  clearBtn.addEventListener('click', function () {
+    editor.value = '';
+    show('', false);
+    editor.focus();
   });
+  editor.addEventListener('keydown', function (e) {
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      editor.setRangeText('    ', editor.selectionStart, editor.selectionEnd, 'end');
+    }
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      e.preventDefault();
+      run();
+    }
+  });
+
+  boot();
 </script>
 </body>
 </html>
